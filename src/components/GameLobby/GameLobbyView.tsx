@@ -3,13 +3,12 @@ import { usePlayer } from "../../context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./GameLobbyView.module.css";
 import { TeamSlot } from "./TeamSlot/TeamSlot";
-import { disconnectSocket, initializeSocket, getSocket } from "../../config/socketConfig";
+import { disconnectSocket, initializeSocket } from "../../config/socketConfig";
 import apiClient from "../../config/axiosConfig";
 import { Lobby } from "../../datatypes/Lobby";
 import { PlayerDisplay } from "./PlayerDisplay/PlayerDisplay";
 import { Team } from "../../datatypes/Team";
 import { LeaveButton } from "../buttons/LeaveButton/LeaveButton";
-import { Player } from "../../datatypes/Player";
 
 export const GameLobbyView: React.FC = () => {
   const [lobby, setLobby] = useState<Lobby>({
@@ -96,6 +95,7 @@ export const GameLobbyView: React.FC = () => {
       const response = await apiClient.post("/api/game/start", {}, { withCredentials: true });
       console.log("Game started successfully:", response.data);
       navigate("/board");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Failed to start game:", error.response?.data || error.message);
       alert(error.response?.data || "An error occurred. Please try again.");
